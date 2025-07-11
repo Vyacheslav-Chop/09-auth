@@ -2,17 +2,23 @@
 import React from "react";
 import css from "./SignInPage.module.css";
 import { NewUser } from "@/types/user";
-import { login } from "@/lib/clientApi";
 import { useRouter } from "next/navigation";
+import { login } from "@/lib/api/clientApi";
+import { useAuth } from "@/lib/store/authStore";
 
 const SignIn = () => {
   const router = useRouter();
+
+  const setUser = useAuth((state) => state.setUser);
 
   const handleSubmit = async (formData: FormData) => {
     try {
       const formValues = Object.fromEntries(formData) as NewUser;
       const res = await login(formValues);
-      if (res) router.push("/profile");
+      if (res) {
+        setUser(res);
+        router.push("/profile");
+      }
     } catch (error) {
       console.log(error);
     }

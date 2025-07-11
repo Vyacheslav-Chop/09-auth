@@ -1,4 +1,3 @@
-import Image from "next/image";
 import css from './ProfilePage.module.css';
 import Link from "next/link";
 
@@ -36,7 +35,7 @@ const Profile = () => {
             Edit Profile
           </Link>
         </div>
-        <div className={css.avatarWrapper}>
+        {/* <div className={css.avatarWrapper}>
           <Image
             src="Avatar"
             alt="User Avatar"
@@ -44,7 +43,7 @@ const Profile = () => {
             height={120}
             className={css.avatar}
           />
-        </div>
+        </div> */}
         <div className={css.profileInfo}>
           <p>Username: your_username</p>
           <p>Email: your_email@example.com</p>

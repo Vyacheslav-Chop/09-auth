@@ -9,7 +9,7 @@ export async function GET() {
   const refreshToken = cookieStore.get("refreshToken")?.value;
 
   if (accessToken) {
-    return NextResponse.json({});
+    return NextResponse.json({ message: "Session refreshed successfully" });
   }
 
   if (refreshToken) {
@@ -33,8 +33,11 @@ export async function GET() {
       if (accessToken) cookieStore.set("accessToken", accessToken);
       if (refreshToken) cookieStore.set("refreshToken", refreshToken);
 
-      return NextResponse.json({});
+      return NextResponse.json({ message: "Session refreshed successfully" });
     }
   }
-  return NextResponse.json({});
+  return NextResponse.json(
+    { message: "Invalid or expired token" },
+    { status: 401 }
+  );
 }

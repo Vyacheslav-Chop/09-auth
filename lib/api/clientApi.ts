@@ -1,6 +1,7 @@
 import { NewNote, Note } from "@/types/note";
-import { nextServer } from "./api";
+
 import { NewUser, User, UserRes } from "@/types/user";
+import { nextServer } from "./api";
 
 export type FetchNotesProps = {
   notes: Note[];
@@ -8,18 +9,19 @@ export type FetchNotesProps = {
 };
 
 export async function fetchNotes(
-  searchText: string,
+  search: string,
   page: number,
   tag?: string
 ): Promise<FetchNotesProps> {
   const res = await nextServer.get<FetchNotesProps>("/notes", {
     params: {
-      ...(searchText && { search: searchText }),
-      ...(tag && { tag }),
+      ...(search && { search }),
       page,
       perPage: 12,
+      ...(tag && { tag }),
     },
   });
+
   return res.data;
 }
 
@@ -28,12 +30,12 @@ export async function createNote(newNote: NewNote): Promise<Note> {
   return res.data;
 }
 
-export async function deleteNote(id: number): Promise<Note> {
+export async function deleteNote(id: string): Promise<Note> {
   const res = await nextServer.delete<Note>(`/notes/${id}`);
   return res.data;
 }
 
-export async function fetchNoteById(id: number): Promise<Note> {
+export async function fetchNoteById(id: string): Promise<Note> {
   const res = await nextServer.get<Note>(`/notes/${id}`);
   return res.data;
 }
@@ -46,4 +48,22 @@ export async function register(newUser: NewUser): Promise<User> {
 export async function login(newUser: NewUser): Promise<UserRes> {
   const res = await nextServer.post<UserRes>("/auth/login", newUser);
   return res.data;
+}
+
+type CheckSessionResp = {
+  message: string;
+};
+
+export async function checkSession(): Promise<CheckSessionResp> {
+  const res = await nextServer.get<CheckSessionResp>("/auth/session");
+  return res.data;
+}
+
+export async function fetchUser(): Promise<UserRes> {
+  const res = await nextServer.get<UserRes>("/users/me");
+  return res.data;
+}
+
+export async function logOut(): Promise<void> {
+  await nextServer.post("/auth/logout");
 }

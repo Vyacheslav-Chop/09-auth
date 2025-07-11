@@ -5,6 +5,8 @@ import { useParams, useRouter } from "next/navigation";
 
 export default function PreviewClient() {
   const { id } = useParams();
+  const parsedId = String(id);
+console.log("Modal client", parsedId);
 
   const router = useRouter();
 
@@ -12,7 +14,7 @@ export default function PreviewClient() {
 
   return (
     <Modal onClose={closeModal}>
-      <NotePreview id={Number(id)} onClose={closeModal} />
+      <NotePreview id={parsedId} onClose={closeModal} />
     </Modal>
   );
 }

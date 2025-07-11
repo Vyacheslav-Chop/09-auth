@@ -3,19 +3,25 @@
 import React from "react";
 import css from "./SignUpPage.module.css";
 import { NewUser } from "@/types/user";
-import { register } from "@/lib/clientApi";
+
 import { useRouter } from "next/navigation";
+import { register } from "@/lib/api/clientApi";
+import { useAuth } from "@/lib/store/authStore";
 
 const SingUp = () => {
   const router = useRouter();
+
+  const seUser = useAuth((state) => state.setUser);
 
   const handleSubmit = async (formData: FormData) => {
     try {
       const formValues = Object.fromEntries(formData) as NewUser;
       const res = await register(formValues);
-      console.log(res);
 
-      if (res) router.push("/profile");
+      if (res) {
+        seUser(res);
+        router.push("/profile");
+      }
     } catch (error) {
       console.log(error);
     }

@@ -7,7 +7,8 @@ import { useDebounce } from "use-debounce";
 import NoteList from "@/components/NoteList/NoteList";
 import SearchBox from "@/components/SearchBox/SearchBox";
 import Link from "next/link";
-import { fetchNotes, FetchNotesProps } from "@/lib/clientApi";
+import { fetchNotes, FetchNotesProps } from "@/lib/api/clientApi";
+
 
 interface NotesClientProps {
   initialData: FetchNotesProps;

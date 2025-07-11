@@ -1,31 +1,51 @@
+"use client";
+
+import { useAuth } from "@/lib/store/authStore";
 import css from "./AuthNavigation.module.css";
 import Link from "next/link";
+import { logOut } from "@/lib/api/clientApi";
+import { useRouter } from "next/navigation";
 
 const AuthNavigation = () => {
-  return [
-    <li className={css.navigationItem} key="profile">
-      <Link href="/profile" prefetch={false} className={css.navigationLink}>
-        Profile
-      </Link>
-    </li>,
+  const { isAuthenticated, user, clearIsAuthenticated } = useAuth();
+  const router = useRouter();
 
-    <li className={css.navigationItem} key="logout">
-      <p className={css.userEmail}>User email</p>
-      <button className={css.logoutButton}>Logout</button>
-    </li>,
+  const handleLogOut = async () => {
+    await logOut();
+    clearIsAuthenticated();
+    router.replace("/sign-in");
+  };
 
-    <li className={css.navigationItem} key="login">
-      <Link href="/sign-in" prefetch={false} className={css.navigationLink}>
-        Login
-      </Link>
-    </li>,
+  return isAuthenticated ? (
+    <>
+      <li className={css.navigationItem}>
+        <Link href="/profile" prefetch={false} className={css.navigationLink}>
+          Profile
+        </Link>
+      </li>
 
-    <li className={css.navigationItem} key="singin">
-      <Link href="/sign-up" prefetch={false} className={css.navigationLink}>
-        Sign up
-      </Link>
-    </li>
-  ];
+      <li className={css.navigationItem}>
+        <p className={css.userEmail}>{user?.email}</p>
+        <button className={css.logoutButton} onClick={handleLogOut}>
+          Logout
+        </button>
+      </li>
+    </>
+  ) : (
+    <>
+      <li className={css.navigationItem}>
+        <Link href="/sign-in" prefetch={false} className={css.navigationLink}>
+          Login
+        </Link>
+      </li>
+
+      <li className={css.navigationItem}>
+        <Link href="/sign-up" prefetch={false} className={css.navigationLink}>
+          Sign up
+        </Link>
+      </li>
+    </>
+  );
 };
 
 export default AuthNavigation;

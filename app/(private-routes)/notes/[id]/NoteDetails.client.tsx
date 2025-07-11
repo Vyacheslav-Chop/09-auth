@@ -4,12 +4,13 @@ import css from "./NoteDetails.module.css";
 import { useParams, useRouter } from "next/navigation";
 import Loader from "@/components/Loader/Loader";
 import ErrorText from "@/components/Error/ErrorText";
-import { fetchNoteById } from "@/lib/clientApi";
+import { fetchNoteById } from "@/lib/api/clientApi";
 
 export default function NoteDetailsClient() {
   const { id } = useParams();
-
+  const parsedId = String(id);
   const router = useRouter();
+console.log("Details client", parsedId);
 
   const back = () => router.back();
 
@@ -18,10 +19,12 @@ export default function NoteDetailsClient() {
     isLoading,
     isError,
   } = useQuery({
-    queryKey: ["note", id],
-    queryFn: () => fetchNoteById(Number(id)),
+    queryKey: ["note", parsedId],
+    queryFn: () => fetchNoteById(parsedId),
     refetchOnMount: false,
   });
+
+  console.log(note);
 
   const formattedDate = note?.createdAt
     ? new Date(note?.createdAt).toUTCString()
