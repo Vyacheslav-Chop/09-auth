@@ -55,7 +55,7 @@ console.log("Details server", parsedId);
     queryFn: () => fetchNoteByIdServer(parsedId),
   });
 
-  console.log("Details client", queryClient);
+  console.log("Details server", queryClient);
 
   return (
     <HydrationBoundary state={dehydrate(queryClient)}>

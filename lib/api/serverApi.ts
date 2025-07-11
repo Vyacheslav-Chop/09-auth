@@ -2,6 +2,7 @@ import { cookies } from "next/headers";
 import { nextServer } from "./api";
 import { FetchNotesProps } from "./clientApi";
 import { Note } from "@/types/note";
+import { api } from "@/app/api/api";
 
 export async function fetchNotesServer(
   search: string,
@@ -26,10 +27,12 @@ export async function fetchNotesServer(
 
 export async function fetchNoteByIdServer(id: string): Promise<Note> {
   const cookieStore = await cookies();
-  const res = await nextServer.get<Note>(`/notes/${id}`, {
+  const res = await api.get<Note>(`/notes/${id}`, {
     headers: {
       Cookie: cookieStore.toString(),
     },
   });
+  console.log("Server Api", res.data);
+  
   return res.data;
 }
