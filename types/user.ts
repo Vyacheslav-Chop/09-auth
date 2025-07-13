@@ -13,3 +13,7 @@ export type UserRes = {
   email: string;
   avatar: string;
 };
+
+export type UpdateUserProps = {
+  username: string;
+};

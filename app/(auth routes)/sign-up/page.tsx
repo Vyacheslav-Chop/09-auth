@@ -1,15 +1,16 @@
 "use client";
 
-import React from "react";
 import css from "./SignUpPage.module.css";
 import { NewUser } from "@/types/user";
-
 import { useRouter } from "next/navigation";
 import { register } from "@/lib/api/clientApi";
 import { useAuth } from "@/lib/store/authStore";
+import toast from "react-hot-toast";
+import { useState } from "react";
 
 const SingUp = () => {
   const router = useRouter();
+  const [errorMessage, setErrorMessage] = useState("");
 
   const seUser = useAuth((state) => state.setUser);
 
@@ -19,11 +20,14 @@ const SingUp = () => {
       const res = await register(formValues);
 
       if (res) {
+        toast.success("Registration was successful!");
         seUser(res);
         router.push("/profile");
       }
-    } catch (error) {
-      console.log(error);
+    } catch {
+      setErrorMessage(
+        "Registration failed. The account may already exist or an error occurred."
+      );
     }
   };
   return (
@@ -58,7 +62,7 @@ const SingUp = () => {
           </button>
         </div>
 
-        <p className={css.error}>Error</p>
+        <p className={css.error}>{errorMessage}</p>
       </form>
     </main>
   );

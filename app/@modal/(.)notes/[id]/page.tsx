@@ -12,13 +12,11 @@ type PreviewProps = {
 
 export default async function Preview({ params }: PreviewProps) {
   const { id } = await params;
-  const parsedId = String(id);
-  console.log("Modal server", parsedId);
 
   const queryClient = new QueryClient();
   queryClient.prefetchQuery({
-    queryKey: ["note", parsedId],
-    queryFn: () => fetchNoteByIdServer(parsedId),
+    queryKey: ["note", id],
+    queryFn: () => fetchNoteByIdServer(id),
   });
   console.log("Modal server", queryClient);
   

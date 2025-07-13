@@ -1,5 +1,7 @@
-import css from './ProfilePage.module.css';
+import { fetchServerUser } from "@/lib/api/serverApi";
+import css from "./ProfilePage.module.css";
 import Link from "next/link";
+import Image from "next/image";
 
 export const metadata = {
   title: "Your Profile — NoteHub",
@@ -10,7 +12,7 @@ export const metadata = {
     siteName: "NoteHub",
     images: [
       {
-        url: "/og_profile.png",
+        url: "/op_profile.png",
         width: 1200,
         height: 630,
         alt: "User Profile Page on NoteHub",
@@ -21,32 +23,33 @@ export const metadata = {
     card: "summary_large_image",
     title: "Your Profile — NoteHub",
     description: "Access your profile and settings in NoteHub.",
-    images: ["/og_profile.png"],
+    images: ["/op_profile.png"],
   },
 };
 
-const Profile = () => {
+const Profile = async () => {
+  const user = await fetchServerUser();
   return (
     <main className={css.mainContent}>
       <div className={css.profileCard}>
         <div className={css.header}>
           <h1 className={css.formTitle}>Profile Page</h1>
-          <Link href="#" className={css.editProfileButton}>
+          <Link href="/profile/edit" className={css.editProfileButton}>
             Edit Profile
           </Link>
         </div>
-        {/* <div className={css.avatarWrapper}>
+        <div className={css.avatarWrapper}>
           <Image
-            src="Avatar"
+            src={user.avatar}
             alt="User Avatar"
             width={120}
             height={120}
             className={css.avatar}
           />
-        </div> */}
+        </div>
         <div className={css.profileInfo}>
-          <p>Username: your_username</p>
-          <p>Email: your_email@example.com</p>
+          <p>Username: {user.username}</p>
+          <p>Email: {user.email}</p>
         </div>
       </div>
     </main>

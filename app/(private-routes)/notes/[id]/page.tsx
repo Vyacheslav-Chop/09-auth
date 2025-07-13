@@ -46,13 +46,11 @@ export async function generateMetadata({
 
 export default async function NoteDetails({ params }: NoteDetailsProps) {
   const { id } = await params;
-  const parsedId = String(id);
-console.log("Details server", parsedId);
 
   const queryClient = new QueryClient();
   queryClient.prefetchQuery({
-    queryKey: ["note", parsedId],
-    queryFn: () => fetchNoteByIdServer(parsedId),
+    queryKey: ["note", id],
+    queryFn: () => fetchNoteByIdServer(id),
   });
 
   console.log("Details server", queryClient);

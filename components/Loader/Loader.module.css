@@ -16,12 +16,12 @@
   align-items: center;
   justify-content: center;
   border-style: solid;
-  border-radius: 50%;
+  border-radius: 100%;
   animation: spin 1.5s linear infinite;
 }
 
 .spinner_inner {
-  border-radius: 50%;
+  border-radius: 100%;
   border-style: solid;
   animation: spinReverse 0.5s linear infinite;
 }

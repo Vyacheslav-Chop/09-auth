@@ -1,12 +1,7 @@
-import { NewNote, Note } from "@/types/note";
-
-import { NewUser, User, UserRes } from "@/types/user";
+import { FetchNotesProps, NewNote, Note } from "@/types/note";
+import { NewUser, UpdateUserProps, User, UserRes } from "@/types/user";
 import { nextServer } from "./api";
-
-export type FetchNotesProps = {
-  notes: Note[];
-  totalPages: number;
-};
+import { CheckSessionResp } from "@/types/session";
 
 export async function fetchNotes(
   search: string,
@@ -50,10 +45,6 @@ export async function login(newUser: NewUser): Promise<UserRes> {
   return res.data;
 }
 
-type CheckSessionResp = {
-  message: string;
-};
-
 export async function checkSession(): Promise<CheckSessionResp> {
   const res = await nextServer.get<CheckSessionResp>("/auth/session");
   return res.data;
@@ -66,4 +57,9 @@ export async function fetchUser(): Promise<UserRes> {
 
 export async function logOut(): Promise<void> {
   await nextServer.post("/auth/logout");
+}
+
+export async function updateUser(value: UpdateUserProps): Promise<UserRes> {
+  const res = await nextServer.patch<UserRes>("/users/me", value);
+  return res.data;
 }

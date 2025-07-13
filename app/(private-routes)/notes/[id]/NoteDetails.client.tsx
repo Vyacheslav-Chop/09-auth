@@ -7,10 +7,8 @@ import ErrorText from "@/components/Error/ErrorText";
 import { fetchNoteById } from "@/lib/api/clientApi";
 
 export default function NoteDetailsClient() {
-  const { id } = useParams();
-  const parsedId = String(id);
+  const { id } = useParams<{id: string}>();
   const router = useRouter();
-console.log("Details client", parsedId);
 
   const back = () => router.back();
 
@@ -19,8 +17,8 @@ console.log("Details client", parsedId);
     isLoading,
     isError,
   } = useQuery({
-    queryKey: ["note", parsedId],
-    queryFn: () => fetchNoteById(parsedId),
+    queryKey: ["note", id],
+    queryFn: () => fetchNoteById(id),
     refetchOnMount: false,
   });
 

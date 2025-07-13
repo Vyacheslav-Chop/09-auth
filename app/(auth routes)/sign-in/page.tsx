@@ -1,13 +1,15 @@
 "use client";
-import React from "react";
+import React, { useState } from "react";
 import css from "./SignInPage.module.css";
 import { NewUser } from "@/types/user";
 import { useRouter } from "next/navigation";
 import { login } from "@/lib/api/clientApi";
 import { useAuth } from "@/lib/store/authStore";
+import toast from "react-hot-toast";
 
 const SignIn = () => {
   const router = useRouter();
+  const [errorMessage, setErrorMessage] = useState("");
 
   const setUser = useAuth((state) => state.setUser);
 
@@ -16,11 +18,12 @@ const SignIn = () => {
       const formValues = Object.fromEntries(formData) as NewUser;
       const res = await login(formValues);
       if (res) {
+        toast.success("Login successful!");
         setUser(res);
         router.push("/profile");
       }
-    } catch (error) {
-      console.log(error);
+    } catch {
+      setErrorMessage("Incorrect username or password.");
     }
   };
   return (
@@ -56,7 +59,7 @@ const SignIn = () => {
           </button>
         </div>
 
-        <p className={css.error}>{}</p>
+        <p className={css.error}>{errorMessage}</p>
       </form>
     </main>
   );
