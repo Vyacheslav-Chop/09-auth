@@ -1,7 +1,6 @@
 import { cookies } from "next/headers";
 import { nextServer } from "./api";
 import { FetchNotesProps, Note } from "@/types/note";
-import { api } from "@/app/api/api";
 import { CheckSessionResp } from "@/types/session";
 import { UserRes } from "@/types/user";
 
